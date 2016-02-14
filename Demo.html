@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+    <canvas id="myCanvas" height="500px" width="500px" style="margin:0 auto;display:block"></canvas>
+    <script>
+        var can = document.getElementById('myCanvas').getContext('2d');
+        var temp = 5;
+        
+        draw();
+        
+        function draw() {
+            can.clearRect(0, 0, 500, 500);
+            var oDate = new Date();
+            document.title = oDate.getHours() + ',' + oDate.getMinutes() + ',' + oDate.getSeconds();
+            //表盘
+            can.beginPath();
+            can.arc(250, 250, 100, 0, 360, false);
+            can.closePath();
+            can.strokeStyle = '#f60';
+            can.stroke();
+            for (var i = 0; i < 60; i++) {
+                temp--;
+//                alert(temp);
+                if (temp == 0) {
+                    temp = 5;
+                };
+                      
+                can.save();
+                can.translate(250, 250);
+                can.rotate(i * 6 * Math.PI / 180);
+                can.beginPath();
+                /*can.moveTo(0, -80);
+                can.lineTo(0, -90);*/
+                if (temp == 4) {
+                    can.moveTo(0, -75);
+                    can.lineTo(0, -90);
+                } else {
+                    can.moveTo(0, -80);
+                    can.lineTo(0, -90);
+                };
+                can.closePath();
+                can.stroke();
+                can.restore();
+            };
+
+            //时针
+            can.save();
+            can.translate(250, 250);
+            can.rotate(oDate.getHours() * 30 * Math.PI / 180);
+            can.beginPath();
+            can.moveTo(0, 3);
+            can.lineTo(0, -35);
+            can.closePath();
+            can.strokeStyle = 'pink';
+            can.stroke();
+            can.restore();
+
+            //分针
+            can.save();
+            can.translate(250, 250);
+            can.rotate(oDate.getMinutes() * 6 * Math.PI / 180);
+            can.beginPath();
+            can.moveTo(0, 7);
+            can.lineTo(0, -70);
+            can.closePath();
+            can.strokeStyle = 'pink';
+            can.stroke();
+            can.restore();
+
+            //秒针
+            can.save();
+            can.translate(250, 250);
+            can.rotate(oDate.getSeconds() * 6 * Math.PI / 180);
+            can.beginPath();
+            can.moveTo(0, 7);
+            can.lineTo(0, -90);
+            can.closePath();
+            can.strokeStyle = 'pink';
+            can.stroke();
+            can.restore();
+        };
+        
+        var timer = setInterval(draw, 1000);
+    </script>
+</body>
+</html>
